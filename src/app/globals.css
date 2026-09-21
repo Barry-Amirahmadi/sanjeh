@@ -1,0 +1,428 @@
+@import "tailwindcss";
+@import "./tokens.css";
+@import "./components.css" layer(components);
+
+/* ============================================================================
+   CASCADE ORDER — read this before adding a rule anywhere.
+
+     @layer base        element resets. Lowest priority.
+     @layer components  every named class in this project (.t-h2, .btn, .grid-*)
+     Tailwind utilities beat @layer components, which is the point: a component
+     class sets the default and `max-w-[30ch]` or `lg:hidden` at the call site
+     overrides it without an !important or a specificity war.
+     unlayered          focus rings and reduced motion. Beat everything.
+
+   Putting a component class outside a layer is the bug that makes `lg:hidden`
+   silently stop working. Don't.
+   ========================================================================= */
+
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    min-width: 0;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+    /* The header is sticky, so an in-page jump or a keyboard focus that scrolls
+       would otherwise land the target underneath it. */
+    scroll-padding-block-start: 5rem;
+  }
+
+  body {
+    margin: 0;
+    background-color: var(--color-safheh);
+    color: var(--color-ink);
+    font-family: var(--font-body);
+    font-size: var(--text-body);
+    line-height: var(--leading-body);
+    font-weight: 400;
+    /* Persian is a connected script. Letter-spacing severs the joins, so the
+       baseline is always zero and only the Latin label utility opts out. */
+    letter-spacing: 0;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: clip;
+  }
+
+  ::selection {
+    background-color: color-mix(in srgb, var(--color-aghrabeh) 22%, transparent);
+    color: var(--color-ink);
+  }
+
+  img,
+  svg,
+  video {
+    display: block;
+    max-width: 100%;
+    height: auto;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  p,
+  figure,
+  blockquote,
+  ul,
+  ol,
+  dl,
+  dd,
+  table {
+    margin: 0;
+    padding: 0;
+  }
+
+  ul,
+  ol {
+    list-style: none;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  button {
+    font: inherit;
+    color: inherit;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+
+  /* Every table on this site is a data table, and every one of them collapses
+     its borders onto the hairline grid. Declared once here rather than on each
+     of the four table components. */
+  table {
+    border-collapse: collapse;
+    inline-size: 100%;
+  }
+
+  th,
+  td {
+    text-align: start;
+    vertical-align: baseline;
+  }
+}
+
+@layer components {
+  /* ---- Typography -------------------------------------------------------
+     There is no display face. A heading is the body face, larger and heavier.
+     That is the whole type system. */
+
+  .t-h1,
+  .t-h2,
+  .t-h3 {
+    font-family: var(--font-body);
+    letter-spacing: 0; /* never track Persian */
+    text-wrap: balance;
+    color: var(--color-ink);
+  }
+
+  .t-h1 {
+    font-size: var(--text-h1);
+    line-height: var(--leading-heading);
+    font-weight: 700;
+  }
+
+  .t-h2 {
+    font-size: var(--text-h2);
+    line-height: var(--leading-heading);
+    font-weight: 700;
+  }
+
+  .t-h3 {
+    font-size: var(--text-h3);
+    line-height: var(--leading-tight);
+    font-weight: 500;
+  }
+
+  .t-lead {
+    font-size: var(--text-lead);
+    line-height: 1.65;
+    color: var(--color-ink);
+    max-width: var(--measure-wide);
+    text-wrap: pretty;
+  }
+
+  .t-body {
+    font-size: var(--text-body);
+    line-height: var(--leading-body);
+    color: var(--color-ink-2);
+    max-width: var(--measure);
+    text-wrap: pretty;
+  }
+
+  .t-meta {
+    font-size: var(--text-meta);
+    line-height: var(--leading-tight);
+    color: var(--color-ink-2);
+  }
+
+  /* Data: codes, sizes, pressures, temperatures, figure numbers, and every
+     numeral inside a table. Latin digits in the mono face — see the note on
+     toFa() in src/lib/digits.ts for why that is correct here rather than a
+     shortcut, and why running prose does the opposite. */
+  .t-data {
+    font-family: var(--font-mono);
+    font-size: var(--text-data);
+    line-height: var(--leading-data);
+    font-weight: 400;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0;
+    /* A range is one token. Letting `-20 … +200 °C` break across two lines
+       reads as two numbers rather than one span, so the value never wraps —
+       the cell around it does. */
+    white-space: nowrap;
+  }
+
+  /* Latin micro-labels are the ONLY text allowed to carry tracking. Applying
+     this to Persian would sever the cursive joins. Same size as .t-meta by
+     design: the 14px floor is absolute (see tokens.css). */
+  .t-label {
+    font-family: var(--font-mono);
+    font-size: var(--text-micro);
+    font-weight: 500;
+    line-height: 1.4;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-ink-2);
+  }
+
+  /* A Persian label in a label position: no tracking, weight instead. */
+  .t-label-fa {
+    font-family: var(--font-body);
+    font-size: var(--text-micro);
+    font-weight: 500;
+    line-height: 1.4;
+    color: var(--color-ink-2);
+  }
+
+  .on-dark .t-h1,
+  .on-dark .t-h2,
+  .on-dark .t-h3,
+  .on-dark .t-lead {
+    color: var(--color-chalk);
+  }
+  .on-dark .t-body,
+  .on-dark .t-meta,
+  .on-dark .t-label,
+  .on-dark .t-label-fa {
+    color: var(--color-chalk-2);
+  }
+
+  /* ---- Layout ----------------------------------------------------------- */
+
+  .container {
+    width: 100%;
+    max-width: var(--container-max);
+    margin-inline: auto;
+    padding-inline: var(--gutter);
+  }
+
+  /* THE grid. Twelve columns at every width, not four-then-eight-then-twelve:
+     on this site the grid is the design rather than a responsive convenience,
+     and a claim that twelve columns govern every page has to be true at 390px
+     as well as at 1440px. Content spans 12 or 6 on a phone and subdivides
+     upward from there.
+
+     In an RTL document column 1 sits at the RIGHT edge — grid lines are
+     flow-relative, so the browser does that natively and every span is written
+     as "columns from the start of the reading direction". */
+  .grid-12 {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--grid-gap);
+    row-gap: var(--space-5);
+  }
+
+  /* The grid made visible. An overlay that is the *same* grid, so each hairline
+     lands exactly on a column's start edge rather than being approximated with
+     a repeating gradient that drifts as the gap flexes.
+
+     Decorative and inert: aria-hidden at the call site, no pointer events, and
+     absolutely positioned inside a `relative` band so it cannot affect layout
+     or make the body scroll sideways. */
+  .grid-rules {
+    position: absolute;
+    inset-block: 0;
+    inset-inline: 0;
+    pointer-events: none;
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--grid-gap);
+  }
+
+  .grid-rules > span {
+    display: block;
+    border-inline-start: 1px solid var(--color-rule);
+  }
+
+  /* ---- Grounds -----------------------------------------------------------
+     Two light grounds and one dark, and the dark one is the footer. */
+
+  .ground-dial {
+    background-color: var(--color-safheh);
+  }
+  .ground-scale {
+    background-color: var(--color-darajeh);
+  }
+  .ground-dark {
+    background-color: var(--color-ghab);
+    color: var(--color-chalk);
+  }
+
+  /* ---- Depth -------------------------------------------------------------
+     Redefined from the editorial engine, not deleted — components still
+     reference both classes.
+
+       .plane-raised   a data panel standing on the page. The cool grey tint
+                       plus a hairline. No shadow: a shadow would make it read
+                       as a card, and nothing on this site is a card.
+       .img-frame      an image sits inside a 1px rule, flush, no mat, no lift.
+     */
+
+  .plane-raised {
+    background-color: var(--color-darajeh);
+    border: 1px solid var(--color-rule);
+    box-shadow: var(--shadow-lift);
+  }
+  .on-dark .plane-raised {
+    background-color: color-mix(in srgb, var(--color-chalk) 7%, transparent);
+    border-color: var(--color-rule-dark);
+  }
+
+  .img-frame {
+    position: relative;
+    /* Definite width matters: with `width: auto`, a max-height constraint is
+       transferred back through the aspect ratio and silently narrows the frame
+       instead of cropping it. */
+    width: 100%;
+    overflow: hidden;
+    background-color: var(--color-darajeh);
+    border: 1px solid var(--color-rule);
+    box-shadow: var(--shadow-lift);
+  }
+  .on-dark .img-frame {
+    background-color: color-mix(in srgb, var(--color-chalk) 7%, transparent);
+    border-color: var(--color-rule-dark);
+  }
+
+  .img-fill {
+    position: absolute;
+    inset: 0;
+  }
+
+  /* Deliberately no hover zoom and no crop drift. A catalogue photograph is a
+     record of a part, not a moment to be animated into. */
+  .img-zoom {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Contain, not cover: a technical diagram cropped at the edges stops being a
+     diagram. Used by the figure in the technical note. */
+  .img-contain {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  /* ---- Motion -------------------------------------------------------------
+     Opacity and four pixels. No horizontal drift, no stagger longer than two
+     steps — the editorial engine's reveal announced each block as it arrived,
+     which on a page that is mostly table would read as the data loading in.
+
+     Guarded on [data-js] so that if the script never runs, nothing is hidden.
+     A reveal that fails open is a reveal; one that fails closed is a blank
+     page. */
+  [data-js="on"] .reveal {
+    opacity: 0;
+    transform: translate3d(0, 4px, 0);
+    transition:
+      opacity var(--dur-slow) var(--ease-out),
+      transform var(--dur-slow) var(--ease-out);
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+
+  [data-js="on"] .reveal[data-in="true"] {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+
+  /* ---- Rules --------------------------------------------------------------
+     The structural rule is full-strength ink and divides one band from the
+     next. The hairline is what a table is ruled with. */
+
+  .rule {
+    height: 1px;
+    border: 0;
+    background-color: var(--color-rule);
+  }
+  .rule-strong {
+    height: 1px;
+    border: 0;
+    background-color: var(--color-rule-strong);
+  }
+  .on-dark .rule {
+    background-color: var(--color-rule-dark);
+  }
+}
+
+/* ============================================================================
+   UNLAYERED — must outrank every utility.
+   ========================================================================= */
+
+:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+  border-radius: var(--radius-none);
+}
+
+.on-dark :focus-visible {
+  outline-color: var(--color-focus-dark);
+}
+
+.skip-link {
+  position: fixed;
+  inset-block-start: var(--space-3);
+  inset-inline-start: var(--space-3);
+  z-index: 100;
+  transform: translateY(-200%);
+  background-color: var(--color-ghab);
+  color: var(--color-chalk);
+  padding: var(--space-3) var(--space-5);
+  font-size: var(--text-meta);
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+.skip-link:focus-visible {
+  transform: translateY(0);
+}
+
+/* Everything arrives already in place. No transitions, no transforms — the
+   design still reads, because motion was never carrying meaning on its own. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
+  }
+
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

@@ -1,0 +1,626 @@
+/* ============================================================================
+   COMPONENT SURFACES — SANJEH
+   Written as CSS classes rather than utility soup so that a colour or a size
+   can only ever change in tokens.css. Tailwind is used for layout — grid
+   spans, flex, order — where it earns its keep.
+
+   Everything here is square, ruled and flush. There is no radius, no shadow
+   and no card anywhere in this file, and that is not an oversight.
+   ========================================================================= */
+
+/* ---- Buttons ------------------------------------------------------------ */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-height: 2.75rem; /* 44px touch target */
+  padding-inline: var(--space-5);
+  padding-block: var(--space-2);
+  font-family: var(--font-body);
+  font-size: var(--text-meta);
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: 0;
+  border: 1px solid transparent;
+  border-radius: var(--radius-none);
+  transition:
+    background-color var(--dur) var(--ease-out),
+    border-color var(--dur) var(--ease-out),
+    color var(--dur) var(--ease-out);
+}
+
+.btn--primary {
+  background-color: var(--color-ink);
+  color: var(--color-chalk);
+}
+.btn--primary:hover {
+  background-color: var(--color-aghrabeh);
+}
+
+.btn--secondary {
+  border-color: var(--color-rule-mid);
+  color: var(--color-ink);
+}
+.btn--secondary:hover {
+  border-color: var(--color-aghrabeh);
+  color: var(--color-aghrabeh);
+}
+
+.on-dark .btn--primary {
+  background-color: var(--color-chalk);
+  color: var(--color-ghab);
+}
+.on-dark .btn--primary:hover {
+  background-color: var(--color-aghrabeh-bright);
+}
+.on-dark .btn--secondary {
+  border-color: var(--color-rule-dark-strong);
+  color: var(--color-chalk);
+}
+.on-dark .btn--secondary:hover {
+  border-color: var(--color-aghrabeh-bright);
+  color: var(--color-aghrabeh-bright);
+}
+
+/* ---- Links --------------------------------------------------------------
+   The accent carries small text here — a table row that navigates, a product
+   code that links — so it is the 4.5:1 blue, never the 3:1 one. */
+
+.link-signal {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 2.75rem;
+  color: var(--color-aghrabeh);
+  border-block-end: 1px solid transparent;
+  transition: border-color var(--dur-fast) var(--ease-out);
+}
+.link-signal:hover {
+  border-block-end-color: currentColor;
+}
+.on-dark .link-signal {
+  color: var(--color-aghrabeh-bright);
+}
+
+/* ---- Band heading -------------------------------------------------------
+   Every band opens the same way: a mono index number, a rule, a heading. The
+   number is what makes the page read as a document with sections rather than
+   a scroll with headings. */
+
+.band-head {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-4);
+  padding-block-end: var(--space-3);
+  border-block-end: 1px solid var(--color-rule-strong);
+  margin-block-end: var(--space-6);
+}
+.on-dark .band-head {
+  border-block-end-color: var(--color-rule-dark-strong);
+}
+
+.band-head__index {
+  font-family: var(--font-mono);
+  font-size: var(--text-data);
+  font-weight: 500;
+  color: var(--color-aghrabeh);
+  flex: none;
+}
+
+/* ---- Data tables --------------------------------------------------------
+   One table surface, used by the capability table, the comparison table, the
+   product specification table and the related-products rows. Alternating rows
+   take the graduation tint; the rules are hairlines; the head is separated by
+   a full-strength rule because it is a different kind of thing. */
+
+.data-table {
+  font-size: var(--text-meta);
+  line-height: var(--leading-tight);
+}
+
+.data-table caption {
+  text-align: start;
+  font-size: var(--text-meta);
+  color: var(--color-ink-2);
+  padding-block-end: var(--space-3);
+}
+
+.data-table th,
+.data-table td {
+  padding: var(--space-3) var(--space-4);
+  border-block-end: 1px solid var(--color-rule);
+}
+
+.data-table thead th {
+  font-weight: 500;
+  color: var(--color-aghrabeh);
+  border-block-end: 1px solid var(--color-rule-strong);
+  white-space: nowrap;
+}
+
+/* The row header — the product or capability the row is about — carries the
+   weight, so a reader scanning down the start edge is reading names. */
+.data-table tbody th {
+  font-weight: 700;
+  color: var(--color-ink);
+}
+
+.data-table tbody tr:nth-child(even) {
+  background-color: var(--color-darajeh);
+}
+
+.data-table tbody tr:last-child th,
+.data-table tbody tr:last-child td {
+  border-block-end-color: var(--color-rule-strong);
+}
+
+/* A cell holding a measurement. Mono, tabular, Latin digits — the convention
+   in Iranian technical documentation, and the reason the site deliberately
+   does not run every numeral through toFa(). */
+.data-table .cell-data {
+  font-family: var(--font-mono);
+  font-size: var(--text-data);
+  font-variant-numeric: tabular-nums;
+}
+
+.on-dark .data-table th,
+.on-dark .data-table td {
+  border-block-end-color: var(--color-rule-dark);
+}
+.on-dark .data-table tbody th {
+  color: var(--color-chalk);
+}
+.on-dark .data-table tbody tr:nth-child(even) {
+  background-color: color-mix(in srgb, var(--color-chalk) 6%, transparent);
+}
+
+/* ---- Stacked table, small screen ----------------------------------------
+   Every table on this site but one restructures into stacked label/value rows
+   below the md breakpoint. Four columns of Persian at 390px would be four
+   words wide, and the page body must never scroll sideways.
+
+   `display: block` on table parts is what does the stacking, and it is also
+   what removes the implicit ARIA table semantics in several browsers — which
+   is why the markup carries explicit `role` attributes on every table element.
+   They are not redundant: they are what survives this media query. The
+   `no-redundant-roles` allowance in eslint.config.mjs points back here.
+
+   The column headings are moved off-screen rather than hidden: a screen reader
+   still needs them, and the `data-label` prefixes below are what replaces them
+   for a sighted reader. */
+
+@media (max-width: 47.99rem) {
+  .stacked-table,
+  .stacked-table tbody,
+  .stacked-table tr,
+  .stacked-table th,
+  .stacked-table td {
+    display: block;
+  }
+
+  .stacked-table thead {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .stacked-table tbody tr {
+    padding-block: var(--space-3);
+    border-block-end: 1px solid var(--color-rule-strong);
+  }
+
+  .stacked-table tbody tr:first-child {
+    border-block-start: 1px solid var(--color-rule-strong);
+  }
+
+  .stacked-table th,
+  .stacked-table td {
+    border-block-end: 0;
+    padding: 1px var(--space-3);
+    white-space: normal;
+  }
+
+  .stacked-table tbody th {
+    padding-block-end: var(--space-2);
+  }
+
+  .stacked-table td[data-label]::before {
+    content: attr(data-label) " — ";
+    font-family: var(--font-body);
+    font-size: var(--text-meta);
+    color: var(--color-ink-2);
+  }
+}
+
+/* ---- Wide table, small screen -------------------------------------------
+   Exactly one table on this site is too wide to restructure: the full
+   specification comparison, which is the point of the collection page. It
+   scrolls inside its own region rather than pushing the page sideways.
+
+   The region is focusable and named, because a scroll container that only a
+   mouse can reach is a keyboard trap in reverse: content nobody navigating by
+   keyboard can get to. */
+.table-scroll {
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+.table-scroll:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+.table-scroll__hint {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-meta);
+  color: var(--color-ink-2);
+  padding-block-end: var(--space-3);
+}
+
+/* ---- Definition list ----------------------------------------------------
+   The masthead data block, the contact band and the about page's capability
+   block are all the same object: label at the start edge, value at the end
+   edge, one hairline per row. */
+
+.data-list {
+  border-block-start: 1px solid var(--color-rule-strong);
+}
+
+.data-list__row {
+  display: grid;
+  grid-template-columns: minmax(7rem, 11rem) 1fr;
+  gap: var(--space-3) var(--space-4);
+  padding-block: var(--space-3);
+  border-block-end: 1px solid var(--color-rule);
+  align-items: baseline;
+}
+
+.data-list__row:last-child {
+  border-block-end-color: var(--color-rule-strong);
+}
+
+.data-list dt {
+  font-size: var(--text-meta);
+  color: var(--color-ink-2);
+}
+
+.data-list dd {
+  font-size: var(--text-meta);
+  color: var(--color-ink);
+  margin: 0;
+}
+
+.on-dark .data-list {
+  border-block-start-color: var(--color-rule-dark-strong);
+}
+.on-dark .data-list__row {
+  border-block-end-color: var(--color-rule-dark);
+}
+.on-dark .data-list__row:last-child {
+  border-block-end-color: var(--color-rule-dark-strong);
+}
+.on-dark .data-list dt {
+  color: var(--color-chalk-2);
+}
+.on-dark .data-list dd {
+  color: var(--color-chalk);
+}
+
+/* ---- Product cell -------------------------------------------------------
+   Every cell in the product index is identical. No cell is larger than
+   another, none is featured, and none carries a different crop. The editorial
+   family's tall / wide / compact / feature rhythm does not exist on this site
+   and its absence is the statement: a component catalogue is a register, and
+   a register does not rank its entries by how they are laid out. */
+
+.product-cell {
+  display: flex;
+  flex-direction: column;
+  min-inline-size: 0;
+  border: 1px solid var(--color-rule);
+  background-color: var(--color-safheh);
+  transition: border-color var(--dur) var(--ease-out);
+}
+
+.product-cell:hover {
+  border-color: var(--color-rule-mid);
+}
+
+/* The category bar. Three pixels of colour, and colour is never what carries
+   the meaning: the written category label sits directly beneath it, and the
+   link's accessible name says the category in words. */
+.product-cell__bar {
+  block-size: 3px;
+  flex: none;
+}
+
+.product-cell__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  flex: 1;
+}
+
+.product-cell__code {
+  font-family: var(--font-mono);
+  font-size: var(--text-data);
+  font-weight: 500;
+  color: var(--color-aghrabeh);
+  letter-spacing: 0.04em;
+}
+
+.product-cell__specs {
+  margin-block-start: auto;
+  padding-block-start: var(--space-3);
+  border-block-start: 1px solid var(--color-rule);
+}
+
+.product-cell__spec {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding-block: 2px;
+  font-size: var(--text-meta);
+  color: var(--color-ink-2);
+}
+
+.product-cell__spec dd {
+  font-family: var(--font-mono);
+  font-size: var(--text-data);
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-ink);
+  text-align: end;
+  margin: 0;
+}
+
+.product-cell__name {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 2.75rem;
+  border-block-end: 1px solid transparent;
+  transition: border-color var(--dur-fast) var(--ease-out);
+}
+.product-cell:hover .product-cell__name {
+  border-block-end-color: currentColor;
+}
+
+/* ---- Method band --------------------------------------------------------
+   Four numbered steps on one hairline row. No icons — an icon here would be
+   decoration standing in for the sentence that does the work. */
+
+.method-step {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding-block-start: var(--space-3);
+  border-block-start: 1px solid var(--color-rule-strong);
+}
+
+.method-step__index {
+  font-family: var(--font-mono);
+  font-size: var(--text-data);
+  font-weight: 500;
+  color: var(--color-aghrabeh);
+}
+
+/* ---- Technical note -----------------------------------------------------
+   Set like a journal article: two columns of running Persian text under a
+   full-strength rule. Columns collapse to one below the md breakpoint, where
+   a 15px two-column measure would be about six words wide. */
+
+.note-columns {
+  column-gap: var(--space-7);
+  column-rule: 1px solid var(--color-rule);
+}
+
+@media (min-width: 48rem) {
+  .note-columns {
+    column-count: 2;
+  }
+}
+
+.note-columns p {
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
+  color: var(--color-ink-2);
+  text-wrap: pretty;
+}
+
+.note-columns p + p {
+  margin-block-start: var(--space-4);
+}
+
+/* ---- Navigation --------------------------------------------------------- */
+
+.site-header {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: 50;
+  background-color: var(--color-safheh);
+  /* Always ruled, not ruled-on-scroll. The hairline under the masthead is a
+     structural line in a design made of structural lines; making it appear on
+     scroll would make the top of the page move for no reason. No backdrop
+     blur anywhere — the header is opaque, so there is nothing to blur. */
+  border-block-end: 1px solid var(--color-rule-strong);
+}
+
+.nav-link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  padding-inline: var(--space-3);
+  font-size: var(--text-meta);
+  color: var(--color-ink-2);
+  transition: color var(--dur-fast) var(--ease-out);
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  inset-block-end: 0.5rem;
+  inset-inline: var(--space-3);
+  block-size: 1px;
+  background-color: var(--color-aghrabeh);
+  scale: 0 1;
+  transform-origin: var(--nav-origin, right);
+  transition: scale var(--dur) var(--ease-out);
+}
+
+.nav-link:hover,
+.nav-link[aria-current] {
+  color: var(--color-ink);
+}
+.nav-link:hover::after,
+.nav-link[aria-current]::after {
+  scale: 1 1;
+}
+
+/* ---- Mobile navigation panel -------------------------------------------- */
+
+.menu-panel {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-ghab);
+  color: var(--color-chalk);
+  transform: translate3d(calc(var(--flow-start) * 100%), 0, 0);
+  visibility: hidden;
+  transition:
+    transform var(--dur-slow) var(--ease-in-out),
+    visibility 0s linear var(--dur-slow);
+}
+
+.menu-panel[data-open="true"] {
+  transform: translate3d(0, 0, 0);
+  visibility: visible;
+  transition:
+    transform var(--dur-slow) var(--ease-in-out),
+    visibility 0s;
+}
+
+/* Deliberately not a display-scale link. The panel is a list of destinations,
+   and on this site even the loudest text is restrained. */
+.menu-panel__link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  min-block-size: 3.5rem;
+  font-size: var(--text-h3);
+  font-weight: 500;
+  color: var(--color-chalk);
+  border-block-end: 1px solid var(--color-rule-dark);
+}
+
+.menu-panel__link::after {
+  content: attr(data-index);
+  font-family: var(--font-mono);
+  font-size: var(--text-data);
+  color: var(--color-aghrabeh-bright);
+}
+
+.menu-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 2.75rem;
+  block-size: 2.75rem;
+  margin-inline-end: calc(var(--space-3) * -1);
+}
+
+.menu-toggle__bar {
+  display: block;
+  block-size: 1px;
+  background-color: currentColor;
+}
+
+/* ---- Archive figures ----------------------------------------------------
+   Six process images at one ratio, each numbered and captioned. A caption is
+   required here: an uncaptioned technical image is decoration, and this site
+   does not decorate. */
+
+.figure-tile {
+  display: block;
+  inline-size: 100%;
+  text-align: start;
+  /* Explicit, and checked in the smoke suite. An image that opens a lightbox
+     has to look pressable; the editorial engine shipped these computing
+     `default`, which is a defect this build does not inherit. */
+  cursor: pointer;
+}
+
+.figure-tile__meta {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--space-2) var(--space-3);
+  padding-block-start: var(--space-3);
+  margin-block-start: var(--space-3);
+  border-block-start: 1px solid var(--color-rule-strong);
+}
+
+.figure-tile__number {
+  font-family: var(--font-mono);
+  font-size: var(--text-data);
+  color: var(--color-aghrabeh);
+}
+
+/* ---- Lightbox ----------------------------------------------------------- */
+
+.lightbox {
+  border: 0;
+  padding: 0;
+  max-inline-size: 100vw;
+  max-block-size: 100vh;
+  inline-size: 100vw;
+  block-size: 100dvh;
+  background-color: transparent;
+  color: var(--color-chalk);
+  overflow: hidden;
+}
+
+.lightbox::backdrop {
+  /* Near-opaque: a translucent backdrop over a pure-white page washes the
+     enlarged image out completely. */
+  background-color: #0e1116;
+}
+
+/* ---- Footer and menu links ----------------------------------------------
+   Text links in a dense list still need a finger-sized hit area. The height
+   comes from the link itself so the list gap can stay at zero and the block
+   does not grow taller than the design intends. */
+
+.footer-link {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 2.75rem;
+  font-size: var(--text-meta);
+  transition: color var(--dur-fast) var(--ease-out);
+}
+.footer-link:hover {
+  color: var(--color-chalk);
+}
+
+/* ---- Breadcrumb --------------------------------------------------------- */
+
+.crumb {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 2.75rem;
+  transition: color var(--dur-fast) var(--ease-out);
+}
+.crumb:hover {
+  color: var(--color-aghrabeh);
+}

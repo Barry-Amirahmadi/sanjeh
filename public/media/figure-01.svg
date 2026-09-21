@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="500" viewBox="0 0 800 500" role="img">
+  <!--
+    Figure 01 — inherent flow characteristic.
+
+    Hand-authored rather than generated with the other 24 images, for two
+    reasons. A chart has to be *read*, and an image model garbles axis numerals
+    into plausible-looking nonsense; and the rule that no generated image may
+    contain text would have made an unlabelled chart out of it.
+
+    All type here is Latin and numeric. The two curves are named A and B, and
+    the caption beside the figure says in Persian which is which — that keeps
+    every Persian glyph inside the page, where the font is self-hosted and
+    known, instead of inside an <img> that renders with whatever the reader's
+    system happens to have.
+
+    Curve B is R^(h-1) with R = 50, the usual equal-percentage rangeability.
+  -->
+  <rect width="800" height="500" fill="#FFFFFF"/>
+
+  <!-- Grid: quartiles on both axes. -->
+  <g stroke="#DADDE2" stroke-width="1">
+    <path d="M100 330 H760 M100 240 H760 M100 150 H760"/>
+    <path d="M265 60 V420 M430 60 V420 M595 60 V420"/>
+  </g>
+  <g stroke="#B9BEC7" stroke-width="1" stroke-dasharray="3 4">
+    <path d="M100 60 H760 M760 60 V420"/>
+  </g>
+
+  <!-- Axes. -->
+  <path d="M100 60 V420 H760" fill="none" stroke="#0E1116" stroke-width="2"/>
+
+  <!-- B — equal percentage. -->
+  <path d="M100 412.8 L166 409.3 L232 404.3 L298 396.7 L364 385.6 L430 369.1 L496 344.8 L562 308.7 L628 255.3 L694 176.5 L760 60"
+        fill="none" stroke="#0047FF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- A — linear. -->
+  <path d="M100 420 L760 60" fill="none" stroke="#0E1116" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- Curve labels, set on the curves themselves rather than in a legend. -->
+  <g font-family="'IBM Plex Mono', ui-monospace, 'Courier New', monospace" font-size="20" font-weight="500">
+    <rect x="452" y="212" width="26" height="26" fill="#FFFFFF"/>
+    <text x="458" y="232" fill="#0E1116">A</text>
+    <rect x="614" y="292" width="26" height="26" fill="#FFFFFF"/>
+    <text x="620" y="312" fill="#0047FF">B</text>
+  </g>
+
+  <!-- Scales. Ticks at 0, 50 and 100 only; the grid carries the quartiles. -->
+  <g font-family="'IBM Plex Mono', ui-monospace, 'Courier New', monospace" font-size="17" fill="#5A6270">
+    <text x="88" y="427" text-anchor="end">0</text>
+    <text x="88" y="247" text-anchor="end">50</text>
+    <text x="88" y="67" text-anchor="end">100</text>
+    <text x="100" y="452" text-anchor="middle">0</text>
+    <text x="430" y="452" text-anchor="middle">50</text>
+    <text x="760" y="452" text-anchor="middle">100</text>
+    <text x="60" y="40" fill="#0E1116">%</text>
+    <text x="772" y="452" fill="#0E1116">%</text>
+  </g>
+</svg>

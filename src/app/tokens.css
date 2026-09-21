@@ -1,0 +1,164 @@
+/* ============================================================================
+   SANJEH — DESIGN TOKENS
+   Single source of truth. Nothing in the app may hardcode a colour, a size,
+   a duration or an easing curve; it references a token from this file.
+
+   Palette rationale — the colours are named from the subject's own world, an
+   instrument read at a glance:
+     صفحه  / safheh   the white face of a gauge. Everything is read against it.
+     درجه  / darajeh  the tinted graduation band on a scale. A functional tint,
+                      never a decorative one: table rows and data panels only.
+     قاب   / ghab     the bezel. The ink, and the one dark ground on the site.
+     عقربه / aghrabeh the needle. The single coloured thing on an instrument.
+
+   Every ratio in a comment below was measured with the WCAG relative-luminance
+   formula, not estimated. Nothing here is annotated from memory.
+   ========================================================================= */
+
+@theme {
+  /* ---- Colour: grounds -------------------------------------------------- */
+  /* Pure white, not paper. This site is clinical, not printerly. */
+  --color-safheh: #ffffff; /* the ground of every band but the footer */
+  --color-darajeh: #f4f5f7; /* 1.09:1 against safheh — a tint, not a plane */
+
+  /* The ONE dark ground on this site, and it is the footer. Every other band
+     is light. Both of the other sites in this family run dark sections; not
+     running one is part of what separates this from them. */
+  --color-ghab: #0e1116;
+
+  /* ---- Colour: text ----------------------------------------------------- */
+  --color-ink: #0e1116; /* 18.91:1 on safheh · 17.34:1 on darajeh */
+  --color-ink-2: #5a6270; /*  6.15:1 on safheh ·  5.64:1 on darajeh */
+  --color-chalk: #f2f4f7; /* 17.16:1 on ghab */
+  --color-chalk-2: #a8b0bc; /*  8.65:1 on ghab */
+
+  /* ---- Colour: accent ---------------------------------------------------
+     Signal blue. It carries small text — table headings, links, the mono
+     product code — so 3:1 is not enough for it and it is held to 4.5:1. */
+  --color-aghrabeh: #0047ff; /* 6.28:1 on safheh · 5.75:1 on darajeh */
+  --color-aghrabeh-bright: #6e9dff; /* 7.14:1 on ghab — dark ground ONLY.
+                                       2.65:1 on safheh; never use it there. */
+
+  /* ---- Colour: category bars --------------------------------------------
+     Three muted tints off the accent, one per category, carried as a 3px bar
+     on every product cell. Non-text UI, so the bar is held to 3:1 — and the
+     bar is never the only carrier of the category: the written label sits
+     beside it and is what the accessible name says. */
+  --color-cat-1: #0b3d91; /* 10.04:1 on safheh — شیرآلات کنترلی */
+  --color-cat-2: #2d7a8c; /*  4.91:1 on safheh — ابزار دقیق و اندازه‌گیری */
+  --color-cat-3: #7a8296; /*  3.85:1 on safheh — اتصالات و تجهیزات خط */
+
+  /* ---- Colour: lines ----------------------------------------------------
+     Depth on this site comes from rules, not from shadow. Two weights: a low
+     alpha for the rules inside a table, full ink for a structural rule that
+     divides one thing from another. */
+  --color-rule: color-mix(in srgb, #0e1116 12%, transparent);
+  --color-rule-mid: color-mix(in srgb, #0e1116 26%, transparent);
+  --color-rule-strong: #0e1116;
+  --color-rule-dark: color-mix(in srgb, #f2f4f7 18%, transparent);
+  --color-rule-dark-strong: color-mix(in srgb, #f2f4f7 38%, transparent);
+
+  /* ---- Colour: state ----------------------------------------------------- */
+  --color-focus: #0047ff; /* 6.28:1 on safheh */
+  --color-focus-dark: #6e9dff; /* 7.14:1 on ghab */
+
+  /* ---- Type families ----------------------------------------------------
+     ONE text face, at four sizes. Every other site in this family pairs a
+     display face against a body face; using a single grotesque throughout is
+     the authentic Swiss move and is also the widest possible separation from
+     them. There is deliberately no --font-display: no display face exists.
+
+     Noto Sans Arabic — the only text face. 400 / 500 / 700.
+     IBM Plex Mono    — data only: codes, sizes, pressures, temperatures,
+                        figure numbers, every numeral inside a table.
+     Wired to next/font in layout.tsx; the vars are declared there.          */
+  --font-body: var(--font-noto-arabic), "Noto Sans Arabic", system-ui, sans-serif;
+  --font-mono: var(--font-plex-mono), "IBM Plex Mono", ui-monospace, monospace;
+
+  /* ---- Type scale -------------------------------------------------------
+     Restrained on purpose, and this is the single most important separation
+     from VARAGH. The largest thing on the homepage is the company name at
+     3rem. If a heading here ever approaches a quarter of the viewport width,
+     the design has drifted back toward a site this one is not.
+
+     The floor is 14px and it is absolute — --text-meta and --text-micro are
+     the same size by design. A label reads as a label through weight, colour
+     and tracking, never by shrinking under the floor. Density is the design;
+     illegible is not. */
+  --text-h1: clamp(1.75rem, 3.2vw, 3rem); /* 28 → 48px */
+  --text-h2: clamp(1.25rem, 1.9vw, 1.625rem); /* 20 → 26px */
+  --text-h3: 1.0625rem; /* 17px */
+  --text-lead: 1.0625rem; /* 17px */
+  --text-body: 0.9375rem; /* 15px */
+  --text-meta: 0.875rem; /* 14px — the floor */
+  --text-micro: 0.875rem; /* 14px — tracked Latin labels */
+  --text-data: 0.875rem; /* 14px — mono */
+
+  /* ---- Line height ------------------------------------------------------
+     Tighter than the editorial family's 1.95. Density is the point. */
+  --leading-body: 1.7;
+  --leading-heading: 1.28;
+  --leading-tight: 1.45;
+  --leading-data: 1.5;
+
+  /* ---- Spacing scale ---------------------------------------------------- */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+  --space-9: 6rem;
+
+  /* ---- Layout rhythm ----------------------------------------------------
+     Roughly half the editorial family's vertical rhythm. A specification
+     sheet does not breathe; it packs. */
+  --section-y: clamp(3rem, 5vw, 5rem);
+  --section-y-tight: clamp(2rem, 3.5vw, 3.25rem);
+  --gutter: clamp(1.25rem, 3vw, 3rem);
+  --grid-gap: clamp(0.75rem, 1.4vw, 1.5rem);
+  --container-max: 1440px;
+  --measure: 32rem;
+  --measure-wide: 44rem;
+
+  /* ---- Radius — zero. An instrument face has square corners. ------------- */
+  --radius-none: 0px;
+  --radius-full: 999px;
+
+  /* ---- Elevation --------------------------------------------------------
+     Kept as a token because .plane-raised and .img-frame reference it and the
+     handoff forbids deleting either. Redefined to nothing: depth on this site
+     is a 1px line. A shadow would make a data panel read as a card. */
+  --shadow-lift: none;
+
+  /* ---- Motion -----------------------------------------------------------
+     Short and almost invisible. The reveal exists so a long table does not
+     arrive as a wall, not as an effect anybody is meant to notice. */
+  --ease-out: cubic-bezier(0.2, 0, 0, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-fast: 120ms;
+  --dur: 220ms;
+  --dur-slow: 320ms;
+
+  /* ---- Breakpoints ------------------------------------------------------- */
+  --breakpoint-sm: 24rem; /* 384 — covers 375/390 phones */
+  --breakpoint-md: 48rem; /* 768 */
+  --breakpoint-lg: 64rem; /* 1024 */
+  --breakpoint-xl: 80rem; /* 1280 */
+  --breakpoint-2xl: 90rem; /* 1440 */
+}
+
+/* ============================================================================
+   DIRECTION AXIS
+   The document is RTL. Physical transforms (translateX) do not flip with
+   `dir`, so any direction-bearing motion is driven by this multiplier instead.
+   Adding an English locale later means overriding one declaration.
+   ========================================================================= */
+:root {
+  --flow-start: 1; /* content enters from the right in RTL */
+}
+[dir="ltr"] {
+  --flow-start: -1;
+}
