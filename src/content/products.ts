@@ -72,13 +72,6 @@ export const products: Product[] = [
       alt: "شیر کنترلی گلوب با بدنهٔ فولاد زنگ‌نزن و دو فلنج، نمای جانبی",
       ratio: "1/1",
     },
-    views: [
-      {
-        src: "/media/p-01-a.jpg",
-        alt: "همان شیر کنترلی گلوب از زاویهٔ سه‌رخ و کمی از بالا",
-        ratio: "1/1",
-      },
-    ],
     status: "published",
   },
 
@@ -116,13 +109,6 @@ export const products: Product[] = [
       alt: "شیر توپی جمع‌وجور با بدنهٔ برنجی و اهرم دستی",
       ratio: "1/1",
     },
-    views: [
-      {
-        src: "/media/p-02-a.jpg",
-        alt: "همان شیر توپی از نمای روبه‌رو با مجرای داخلی پیدا",
-        ratio: "1/1",
-      },
-    ],
     status: "published",
   },
 
@@ -160,13 +146,6 @@ export const products: Product[] = [
       alt: "مجموعهٔ دیسک شیر پروانه‌ای از جنس فولاد زنگ‌نزن، نمای روبه‌رو",
       ratio: "1/1",
     },
-    views: [
-      {
-        src: "/media/p-03-a.jpg",
-        alt: "همان شیر پروانه‌ای از زاویهٔ کم با نیم‌رخ لبهٔ دیسک",
-        ratio: "1/1",
-      },
-    ],
     status: "published",
   },
 
@@ -204,13 +183,6 @@ export const products: Product[] = [
       alt: "گیج فشار گرد با صفحهٔ سفید بدون درجه‌بندی و قاب فولاد زنگ‌نزن",
       ratio: "1/1",
     },
-    views: [
-      {
-        src: "/media/p-04-a.jpg",
-        alt: "همان گیج از نمای جانبی با ساق دنده‌ای پیدا",
-        ratio: "1/1",
-      },
-    ],
     status: "published",
   },
 
@@ -248,13 +220,6 @@ export const products: Product[] = [
       alt: "بدنهٔ فلومتر خطی؛ محفظهٔ استوانه‌ای فولاد زنگ‌نزن با دو فلنج",
       ratio: "1/1",
     },
-    views: [
-      {
-        src: "/media/p-05-a.jpg",
-        alt: "همان فلومتر از بالا با هر دو سطح فلنج در قاب",
-        ratio: "1/1",
-      },
-    ],
     status: "published",
   },
 
@@ -292,13 +257,6 @@ export const products: Product[] = [
       alt: "پراب سنسور دما با ساق باریک فولاد زنگ‌نزن و اتصال دنده‌ای",
       ratio: "1/1",
     },
-    views: [
-      {
-        src: "/media/p-06-a.jpg",
-        alt: "همان پراب خوابیده در قاب با تمام طول ساق",
-        ratio: "1/1",
-      },
-    ],
     status: "published",
   },
 
@@ -336,13 +294,6 @@ export const products: Product[] = [
       alt: "سه زانویی فولاد زنگ‌نزن در سایزهای پلکانی، چیده‌شده در یک ردیف",
       ratio: "1/1",
     },
-    views: [
-      {
-        src: "/media/p-07-a.jpg",
-        alt: "یک زانویی ایستاده با مجرای داخلی رو به دوربین",
-        ratio: "1/1",
-      },
-    ],
     status: "published",
   },
 
@@ -380,13 +331,6 @@ export const products: Product[] = [
       alt: "حلقهٔ فلنج سنگین با سوراخ‌های پیچ، فولاد زنگ‌نزن ماشین‌کاری‌شده، نمای روبه‌رو",
       ratio: "1/1",
     },
-    views: [
-      {
-        src: "/media/p-08-a.jpg",
-        alt: "همان فلنج از زاویه، با ضخامت صفحه و سوراخ‌ها در دید",
-        ratio: "1/1",
-      },
-    ],
     status: "published",
   },
 
@@ -424,13 +368,6 @@ export const products: Product[] = [
       alt: "بدنهٔ صافی خط با درپوش بازشو، از برنج و فولاد",
       ratio: "1/1",
     },
-    views: [
-      {
-        src: "/media/p-09-a.jpg",
-        alt: "همان صافی با درپوش برداشته‌شده و گذاشته‌شده در کنار بدنه",
-        ratio: "1/1",
-      },
-    ],
     status: "published",
   },
 ];
